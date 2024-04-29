@@ -83,6 +83,7 @@ else
     TEMP_APP_PATH=$(set -- "$TEMP_PATH/Payload/"*.app; echo "$1")
 fi
     
+cp "$HOME/Library/MobileDevice/Provisioning Profiles/$EXPANDED_PROVISIONING_PROFILE.mobileprovision" "$TEMP_APP_PATH/embedded.mobileprovision"
 echo "TEMP_APP_PATH: $TEMP_APP_PATH"
 
 # ---------------------------------------------------
@@ -287,11 +288,11 @@ fi
 # ---------------------------------------------------
 # 7. Update Info.plist for Target App
 
-echo "Updating BundleID:$PRODUCT_BUNDLE_IDENTIFIER, DisplayName:$TARGET_DISPLAY_NAME"
+echo "Updating BundleID:$TARGET_BUNDLE_ID, DisplayName:$TARGET_DISPLAY_NAME"
 TARGET_DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "Print CFBundleDisplayName"  "$TARGET_APP_CONTENTS_PATH/Info.plist")
 TARGET_DISPLAY_NAME="$DUMMY_DISPLAY_NAME$TARGET_DISPLAY_NAME"
 
-/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier $PRODUCT_BUNDLE_IDENTIFIER" "$TARGET_APP_CONTENTS_PATH/Info.plist"
+/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier $TARGET_BUNDLE_ID" "$TARGET_APP_CONTENTS_PATH/Info.plist"
 /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName $TARGET_DISPLAY_NAME" "$TARGET_APP_CONTENTS_PATH/Info.plist"
 
 if [ "$IGNORE_UI_SUPPORTED_DEVICES" = true ]; then
